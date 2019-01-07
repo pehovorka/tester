@@ -1,1 +1,6 @@
-Toto je vychozi obsah!
+<span> Nahrajte soubor s testem:</span>
+<div id="uploader">
+    <input type="file" id="fileInput" accept=".txt" onchange="checkFileExtension()">
+    <button type="submit" id="submitFile" onclick="loadFileAsText()" disabled>Nahrát soubor!</button>
+</div>
+<div id="results"></div>
