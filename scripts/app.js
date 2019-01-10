@@ -1,19 +1,18 @@
 var questionsFile;
 
-
 $(document).ready(function () {
     hashChange();
     window.onhashchange = hashChange;
     function hashChange() {
         var page = location.hash.slice(1);
-        console.log(page);
-        $("nav li a").removeClass('active');
+        $("nav ul li a").removeClass('active');
         $("a[href$='#" + page + "']").addClass('active');
 
         $.ajax({
             url: page + '.html',
             success: function (html) {
                 $("#content").empty().append(html);
+                showContent();
             }
         });
     }
@@ -24,28 +23,32 @@ $(document).ready(function () {
 function checkFileExtension() {
     var file = document.getElementById("fileInput");
     var extension = $(file).val().split('.').pop().toLowerCase();
-    console.log(extension);
     if (extension != "txt") {
         $("#fileInput").val('');
         alert("Jsou povoleny pouze soubory s příponou txt!");
+        return false;
     }
     else {
         $('#submitFile').attr('disabled', false);
         $('#randomButton').attr('disabled', false);
+        return true;
     }
 }
 
 function loadFileAsText() {
-    var fileToLoad = document.getElementById("fileInput").files[0];
-    var fileReader = new FileReader();
+    if (checkFileExtension()) {
+        var fileName = document.getElementById("fileInput").files[0].name;
+        var fileToLoad = document.getElementById("fileInput").files[0];
+        var fileReader = new FileReader();
 
-    fileReader.onload = function (fileLoadedEvent) {
-        questionsFile = fileLoadedEvent.target.result;
-        parseText();
-    };
-    questionList = [];
-    fileReader.readAsText(fileToLoad, "UTF-8");
-    console.log("Soubor byl nahrán!");
+        fileReader.onload = function (fileLoadedEvent) {
+            questionsFile = fileLoadedEvent.target.result;
+            parseText();
+        };
+        questionList = [];
+        fileReader.readAsText(fileToLoad, "UTF-8");
+        $('#fileNameText').text(fileName);
+    }
 }
 
 function parseText() {
@@ -69,11 +72,35 @@ function parseText() {
                 question.addAnswer(new Answer(lines[i], false));
         }
     }
-    console.log(questionList);
-    console.log("Otazky" + questionList.getAnswers);
-    showQuestions();
-
+    resetCounters();
+    showContent();
 }
+
+function areAnyQuestions() {
+    if (questionList.length == 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function resetCounters() {
+    currentQuestionLearn = 0;
+    currentQuestionTest = 0;
+}
+
+function showContent() {
+    if (areAnyQuestions()) {
+        showQuestions();
+        buildTest();
+        buildLearn();
+    }
+    else {
+
+    }
+}
+
 
 function showQuestions() {
     var htmlResult = "";
@@ -93,7 +120,7 @@ function showQuestions() {
         htmlResult += "</div>"
     }
     htmlResult += "<div class=questionBlock>"
-    $('#results').html(htmlResult);
+    $('#viewMode').html(htmlResult);
 }
 
 
@@ -105,3 +132,4 @@ function randomizeQuestions() {
 function randomize(a, b) {
     return 0.5 - Math.random();
 }
+
