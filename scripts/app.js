@@ -6,7 +6,7 @@ $(document).ready(function () {
     function hashChange() {
         var page = location.hash.slice(1);
         $("nav ul li a").removeClass('active');
-        $("a[href$='#" + page + "']").addClass('active');
+        $("a[href$='#" + page + "']").addClass('active');   
 
         $.ajax({
             url: page + '.html',
@@ -46,6 +46,7 @@ function loadFileAsText() {
             parseText();
         };
         questionList = [];
+        resetCounters();
         fileReader.readAsText(fileToLoad, "UTF-8");
         $('#fileNameText').text(fileName);
     }
@@ -72,7 +73,6 @@ function parseText() {
                 question.addAnswer(new Answer(lines[i], false));
         }
     }
-    resetCounters();
     showContent();
 }
 
@@ -88,6 +88,9 @@ function areAnyQuestions() {
 function resetCounters() {
     currentQuestionLearn = 0;
     currentQuestionTest = 0;
+    correctlyAnswered = 0;
+    mistakes = 0;
+    numberOfQuestions = 0;
 }
 
 function showContent() {

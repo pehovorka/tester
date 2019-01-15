@@ -8,7 +8,7 @@ function buildLearn() {
     var htmlLearnAnswers = "";
         var currentQuestionText = questionList[currentQuestionLearn][0].questionText;
         htmlLearnQuestion += "<h2>"+currentQuestionText+"</h2>"
-        questionList[currentQuestionLearn][1] = questionList[currentQuestionLearn][1].sort(randomize);
+        //questionList[currentQuestionLearn][1] = questionList[currentQuestionLearn][1].sort(randomize);
         numberOfAnswers = questionList[currentQuestionLearn][1].length;
         for (var j = 0; j < numberOfAnswers; j++) {
             htmlLearnAnswers += "<p>"+questionList[currentQuestionLearn][1][j].answerText+"</p>"
