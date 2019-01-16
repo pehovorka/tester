@@ -1,6 +1,7 @@
 var questionsFile;
 
 $(document).ready(function () {
+    $(location).attr('href','#welcome');
     hashChange();
     window.onhashchange = hashChange;
     function hashChange() {
@@ -20,8 +21,8 @@ $(document).ready(function () {
 
 
 
-function checkFileExtension() {
-    var file = document.getElementById("fileInput");
+function checkFileExtension(fileElement) {
+    var file = fileElement;
     var extension = $(file).val().split('.').pop().toLowerCase();
     if (extension != "txt") {
         $("#fileInput").val('');
@@ -35,10 +36,10 @@ function checkFileExtension() {
     }
 }
 
-function loadFileAsText() {
-    if (checkFileExtension()) {
-        var fileName = document.getElementById("fileInput").files[0].name;
-        var fileToLoad = document.getElementById("fileInput").files[0];
+function loadFileAsText(fileElement) {
+    if (checkFileExtension(fileElement)) {
+        var fileName = fileElement.files[0].name;
+        var fileToLoad = fileElement.files[0];
         var fileReader = new FileReader();
 
         fileReader.onload = function (fileLoadedEvent) {
@@ -73,6 +74,7 @@ function parseText() {
                 question.addAnswer(new Answer(lines[i], false));
         }
     }
+    $(location).attr('href','#test');
     showContent();
 }
 
