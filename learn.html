@@ -1,17 +1,28 @@
 <div id="learnMode">
-    <div id="learnQuestion">
+    <div class="topBanner">
+    <div class="row">
+        <div class="col-11">
+            <div id="learnQuestionProgress" class="progress border border-light" style="height: 20px;">
+                <div id="learnProgressBar" class="progress-bar bg-info" role="progressbar" style="width: 30%">10</div>
+            </div>
+        </div>
+        <div id="learnQuestionsCounter" class="col-1 text-right text-white">0/0</div>
+    </div>
+    <div id="learnQuestion" class="container mt-3">
         <p>Nejprve prosím nahrajte soubor.</p>
     </div>
-    <div id="learnAnswers"></div>
-    <div class="fixed-bottom row">
-        <div class="col">
-            <button class="btn btn-secondary btn-lg btn-block" id="previous" onclick="previousLearnQuestion()">Předchozí otázka</button>
+    </div>
+    <div class="container mt-3" id="learnAnswers"></div>
+    <div class="fixed-bottom btn-group" role="group">
+        <div class="col no-gutters">
+            <button type="button" class="btn btn-secondary btn-lg btn-block" id="previous" onclick="previousLearnQuestion()"><i class="fas fa-chevron-left"></i></button>
         </div>
-        <div class="col">
-            <button class="btn btn-secondary btn-lg btn-block" id="previous" onclick="showAnswers()">Zobraz správné odpovědi</button>
+        <div class="col-8 no-gutters">
+            <button type="button" class="btn btn-secondary btn-lg btn-block" id="previous" onclick="showAnswers()">Zobraz správné
+                odpovědi</button>
         </div>
-        <div class="col">
-            <button class="btn btn-secondary btn-lg btn-block" id="next" onclick="nextLearnQuestion()">Další otázka</button>
+        <div class="col no-gutters">
+            <button type="button" class="btn btn-secondary btn-lg btn-block" id="next" onclick="nextLearnQuestion()"><i class="fas fa-chevron-right"></i></button>
         </div>
     </div>
 </div>

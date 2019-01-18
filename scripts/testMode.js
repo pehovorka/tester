@@ -12,7 +12,7 @@ function buildTest() {
     //questionList[currentQuestionTest][1] = questionList[currentQuestionTest][1].sort(randomize);
     numberOfAnswers = questionList[currentQuestionTest][1].length;
     for (var j = 0; j < numberOfAnswers; j++) {
-        htmlTestAnswers += "<div class='form-check mb-2'><input type=checkbox id=answer" + j + " class=form-check-input value=" + questionList[currentQuestionTest][1][j].answerText + "><label id=answer" + j + "label class=form-check-label for=answer" + j + ">" + questionList[currentQuestionTest][1][j].answerText + "</label></div>"
+        htmlTestAnswers += "<div class='form-check mb-2'><input type=checkbox id=testAnswer" + j + " class=form-check-input value=" + questionList[currentQuestionTest][1][j].answerText + "><label id=testAnswer" + j + "label class=form-check-label for=testAnswer" + j + ">" + questionList[currentQuestionTest][1][j].answerText + "</label></div>"
     }
     $('#testQuestion').html(htmlTestQuestion);
     $('#testAnswers').html(htmlTestAnswers);
@@ -26,13 +26,18 @@ function buildTest() {
         $('#nextButton').hide();
         $('#repeatButton').hide();
     }
+    else if (answered == true && (currentQuestionTest + 1 == numberOfQuestions)){
+        $('#repeatButton').show();
+        $('#checkButton').hide();
+        $('#nextButton').hide();
+        showColorsTest();
+    }
     else {
         $('#checkButton').hide();
         $('#nextButton').show();
         $('#repeatButton').hide();
+        showColorsTest();
     }
-
-
 }
 
 function checkResults() {
@@ -40,21 +45,14 @@ function checkResults() {
     var isCurrentQustionCorrect = true;
     for (var j = 0; j < numberOfAnswers; j++) {
         console.log(questionList[currentQuestionTest][1][j]);
-        console.log(($('#answer' + j).prop('checked')));
-        if (($('#answer' + j).prop('checked') == true) && (questionList[currentQuestionTest][1][j].correctAnswer == false)) {
+        console.log(($('#testAnswer' + j).prop('checked')));
+        if (($('#testAnswer' + j).prop('checked') == true) && (questionList[currentQuestionTest][1][j].correctAnswer == false)) {
             isCurrentQustionCorrect = false;
         }
-        else if (($('#answer' + j).prop('checked') == false) && (questionList[currentQuestionTest][1][j].correctAnswer == true)) {
+        else if (($('#testAnswer' + j).prop('checked') == false) && (questionList[currentQuestionTest][1][j].correctAnswer == true)) {
             isCurrentQustionCorrect = false;
         }
-
-        if (questionList[currentQuestionTest][1][j].correctAnswer == false) {
-            $('#answer' + j + 'label').css('color', 'red');
-        }
-        else {
-            $('#answer' + j + 'label').css('color', 'green');
-        }
-        $('#answer' + j).prop('disabled', true) == true;
+        showColorsTest();
     }
     if (isCurrentQustionCorrect == true) {
         correctlyAnswered++;
@@ -75,22 +73,11 @@ function checkResults() {
             showConfirmButton: false,
             timer: 2000,
             type: 'error',
-            title: 'Špatně :('
+            title: 'Špatně'
         });
     }
     console.log("Správně: " + correctlyAnswered)
 
-
-    /*    htmlTestAnswers = "";
-       for (var j = 0; j < numberOfAnswers; j++) {
-           if (questionList[currentQuestionTest][1][j].correctAnswer) {
-               htmlTestAnswers += "<p style=color:green><label><input type=checkbox value=" + questionList[currentQuestionTest][1][j].answerText + ">" + questionList[currentQuestionTest][1][j].answerText + "</label></p>"
-           }
-           else {
-               htmlTestAnswers += "<p style=color:red><label><input type=checkbox value=" + questionList[currentQuestionTest][1][j].answerText + ">" + questionList[currentQuestionTest][1][j].answerText + "</label></p>"
-           }
-       }
-       $('#testAnswers').html(htmlTestAnswers); */
     $('#checkButton').hide();
     $('#correctlyAnswered').text(correctlyAnswered);
     $('#correctlyAnswered').attr("style", "width:" + correctlyAnswered / numberOfQuestions * 100 + "%");
@@ -149,5 +136,17 @@ function repeatTest() {
     $('#nextButton').hide();
     $('#repeatButton').hide();
     buildTest();
+}
+
+function showColorsTest() {
+        for (var j = 0; j < numberOfAnswers; j++) {
+            if (questionList[currentQuestionTest][1][j].correctAnswer == false) {
+                $('#testAnswer' + j + 'label').css('color', 'red');
+            }
+            else {
+                $('#testAnswer' + j + 'label').css('color', 'green');
+            }
+            $('#testAnswer' + j).prop('disabled', true) == true;
+        }
 }
 

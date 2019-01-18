@@ -11,24 +11,18 @@ function buildLearn() {
         //questionList[currentQuestionLearn][1] = questionList[currentQuestionLearn][1].sort(randomize);
         numberOfAnswers = questionList[currentQuestionLearn][1].length;
         for (var j = 0; j < numberOfAnswers; j++) {
-            htmlLearnAnswers += "<p>"+questionList[currentQuestionLearn][1][j].answerText+"</p>"
+            htmlLearnAnswers += "<div class=mb-2 id=learnAnswer" + j + "Text>" + questionList[currentQuestionLearn][1][j].answerText + "</div>"
         }
     $('#learnQuestion').html(htmlLearnQuestion);
     $('#learnAnswers').html(htmlLearnAnswers);
+    $('#learnQuestionsCounter').text(currentQuestionLearn + 1 + "/" + numberOfQuestions);
+    $('#learnProgressBar').text(currentQuestionLearn + 1);
+    $('#learnProgressBar').attr("style", "width:" + ((currentQuestionLearn+1)/(numberOfQuestions)*100) + "%");
     
 }
 
 function showAnswers(){
-    htmlLearnAnswers = "";
-    for (var j = 0; j < numberOfAnswers; j++) {
-    if (questionList[currentQuestionLearn][1][j].correctAnswer) {
-        htmlLearnAnswers += "<p style=color:green>" + questionList[currentQuestionLearn][1][j].answerText; + "</p>"
-    }
-    else {
-        htmlLearnAnswers += "<p style=color:red>" + questionList[currentQuestionLearn][1][j].answerText; + "</p>"
-    }
-}
-    $('#learnAnswers').html(htmlLearnAnswers);
+    showColorsLearn();
 }
 function nextLearnQuestion(){
     if (currentQuestionLearn+1 < numberOfQuestions){
@@ -40,5 +34,16 @@ function previousLearnQuestion(){
     if (currentQuestionLearn > 0){
     currentQuestionLearn --;
     buildLearn();
+    }
+}
+
+function showColorsLearn() {
+    for (var j = 0; j < numberOfAnswers; j++) {
+        if (questionList[currentQuestionLearn][1][j].correctAnswer == false) {
+            $('#learnAnswer' + j + 'Text').css('color', 'red');
+        }
+        else {
+            $('#learnAnswer' + j + 'Text').css('color', 'green');
+        }
     }
 }

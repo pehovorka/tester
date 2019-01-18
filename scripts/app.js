@@ -5,7 +5,9 @@ $(document).ready(function () {
     hashChange();
     window.onhashchange = hashChange;
     function hashChange() {
+        if (areAnyQuestions()){
         var page = location.hash.slice(1);
+        $("nav ul li a").show();
         $("nav ul li a").removeClass('active');
         $("a[href$='#" + page + "']").addClass('active');   
 
@@ -17,8 +19,18 @@ $(document).ready(function () {
             }
         });
     }
+    else{
+        $.ajax({
+            url: 'welcome.html',
+            success: function (html) {
+                $("#content").empty().append(html);
+                showContent();
+            }
+        });
+        $("nav ul li a").hide();
+    }
+}
 });
-
 
 
 function checkFileExtension(fileElement) {
@@ -26,7 +38,11 @@ function checkFileExtension(fileElement) {
     var extension = $(file).val().split('.').pop().toLowerCase();
     if (extension != "txt") {
         $("#fileInput").val('');
-        alert("Jsou povoleny pouze soubory s příponou txt!");
+        Swal({
+            type: 'error',
+            title: 'Chyba',
+            text: 'Soubor musí mít příponu txt!'
+          })
         return false;
     }
     else {
@@ -97,41 +113,16 @@ function resetCounters() {
 
 function showContent() {
     if (areAnyQuestions()) {
-        showQuestions();
+        buildView();
         buildTest();
         buildLearn();
-    }
-    else {
-
+        
     }
 }
-
-
-function showQuestions() {
-    var htmlResult = "";
-    var numberOfQuestions = questionList.length;
-    for (var i = 0; i < numberOfQuestions; i++) {
-        htmlResult += "<div class=questionBlock><p class=questionHeader>" + questionList[i][0].questionText; + "</p>"
-        questionList[i][1] = questionList[i][1].sort(randomize);
-        var numberOfAnswers = questionList[i][1].length;
-        for (var j = 0; j < numberOfAnswers; j++) {
-            if (questionList[i][1][j].correctAnswer) {
-                htmlResult += "<p style=color:green>" + questionList[i][1][j].answerText; + "</p>"
-            }
-            else {
-                htmlResult += "<p style=color:red>" + questionList[i][1][j].answerText; + "</p>"
-            }
-        }
-        htmlResult += "</div>"
-    }
-    htmlResult += "<div class=questionBlock>"
-    $('#viewMode').html(htmlResult);
-}
-
 
 function randomizeQuestions() {
     questionList = questionList.sort(randomize);
-    showQuestions();
+    showContent();
 }
 
 function randomize(a, b) {
