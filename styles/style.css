@@ -84,4 +84,7 @@ nav ul {
     height: 100%;
   }
   
-  
+  .spinner {
+    margin-top: 40vh;
+    text-align: center;
+  }

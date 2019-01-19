@@ -33,6 +33,14 @@ $(document).ready(function () {
     }
 });
 
+$(document).ajaxSend(function(event, request, settings) {
+    $('#content').jmspinner();
+});
+
+$(document).ajaxComplete(function(event, request, settings) {
+    $('#content').jmspinner(false);
+});
+
 
 function checkFileExtension(fileElement) {
     var file = fileElement;
