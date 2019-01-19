@@ -1,35 +1,36 @@
 var questionsFile;
+var testFileName = "";
 
 $(document).ready(function () {
-    $(location).attr('href','#welcome');
+    $(location).attr('href', '#welcome');
     hashChange();
     window.onhashchange = hashChange;
     function hashChange() {
-        if (areAnyQuestions()){
-        var page = location.hash.slice(1);
-        $("nav ul li a").show();
-        $("nav ul li a").removeClass('active');
-        $("a[href$='#" + page + "']").addClass('active');   
+        if (areAnyQuestions()) {
+            var page = location.hash.slice(1);
+            $("nav ul li a").show();
+            $("nav ul li a").removeClass('active');
+            $("a[href$='#" + page + "']").addClass('active');
 
-        $.ajax({
-            url: page + '.html',
-            success: function (html) {
-                $("#content").empty().append(html);
-                showContent();
-            }
-        });
+            $.ajax({
+                url: page + '.html',
+                success: function (html) {
+                    $("#content").empty().append(html);
+                    showContent();
+                }
+            });
+        }
+        else {
+            $.ajax({
+                url: 'welcome.html',
+                success: function (html) {
+                    $("#content").empty().append(html);
+                    showContent();
+                }
+            });
+            $("nav ul li a").hide();
+        }
     }
-    else{
-        $.ajax({
-            url: 'welcome.html',
-            success: function (html) {
-                $("#content").empty().append(html);
-                showContent();
-            }
-        });
-        $("nav ul li a").hide();
-    }
-}
 });
 
 
@@ -42,7 +43,7 @@ function checkFileExtension(fileElement) {
             type: 'error',
             title: 'Chyba',
             text: 'Soubor musí mít příponu txt!'
-          })
+        })
         return false;
     }
     else {
@@ -55,6 +56,7 @@ function checkFileExtension(fileElement) {
 function loadFileAsText(fileElement) {
     if (checkFileExtension(fileElement)) {
         var fileName = fileElement.files[0].name;
+        testFileName = fileName;
         var fileToLoad = fileElement.files[0];
         var fileReader = new FileReader();
 
@@ -90,11 +92,14 @@ function parseText() {
                 question.addAnswer(new Answer(lines[i], false));
         }
     }
-    $(location).attr('href','#test');
+    $(location).attr('href', '#test');
     showContent();
+    saveToLocalStorage();
 }
 
+
 function areAnyQuestions() {
+    console.log("Length: "+questionList.length);
     if (questionList.length == 0) {
         return false;
     }
@@ -116,8 +121,55 @@ function showContent() {
         buildView();
         buildTest();
         buildLearn();
-        
     }
+        getKeysFromLocalStorage();
+        showLocalStorageItems();
+}
+
+function saveToLocalStorage() {
+    console.log(testFileName)
+    var sklonovaniOtazky = "";
+    if (numberOfQuestions == 1) { sklonovaniOtazky = "otázka" }
+    else if (numberOfQuestions >= 2 && numberOfQuestions <= 4) { sklonovaniOtazky = "otázky" }
+    else { sklonovaniOtazky = "otázek" }
+    localStorage.setItem(testFileName + " (" + numberOfQuestions + " " + sklonovaniOtazky + ")", JSON.stringify(questionList));
+}
+
+function getKeysFromLocalStorage() {
+    var localStorageKeys = [];
+    for (var i = 0, len = localStorage.length; i < len; ++i) {
+        localStorageKeys.push(localStorage.key(i));
+    }
+    console.log(localStorageKeys);
+    return localStorageKeys;
+}
+
+
+function showLocalStorageItems(){
+    var html = "";
+    for (var i = 0; i < getKeysFromLocalStorage().length; i++){
+        html+='<div><a href=javascript:void(0); onclick="loadFileFromLocalStorage('+i+')";>'+getKeysFromLocalStorage()[i]+'</a><button type="button" class="btn btn-danger btn-sm" onclick="deleteLocalStorageItem('+i+')">–</button></div>'
+    }
+
+    $('#localStorageFiles').html(html);
+}
+
+
+function loadFileFromLocalStorage(index){
+    console.log("Key: "+ getKeysFromLocalStorage()[index]);
+    var data = localStorage.getItem(getKeysFromLocalStorage()[index]);
+    console.log("Data: "+ data);
+    questionList = JSON.parse(data);
+    resetCounters();
+    numberOfQuestions = questionList.length;
+    showContent();
+    $(location).attr('href', '#test');
+    $('#fileNameText').text(getKeysFromLocalStorage()[index]);
+}
+
+function deleteLocalStorageItem(index){
+    localStorage.removeItem(getKeysFromLocalStorage()[index]);
+    showLocalStorageItems();
 }
 
 function randomizeQuestions() {

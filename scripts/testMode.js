@@ -12,7 +12,7 @@ function buildTest() {
     //questionList[currentQuestionTest][1] = questionList[currentQuestionTest][1].sort(randomize);
     numberOfAnswers = questionList[currentQuestionTest][1].length;
     for (var j = 0; j < numberOfAnswers; j++) {
-        htmlTestAnswers += "<div class='form-check mb-2'><input type=checkbox id=testAnswer" + j + " class=form-check-input value=" + questionList[currentQuestionTest][1][j].answerText + "><label id=testAnswer" + j + "label class=form-check-label for=testAnswer" + j + ">" + questionList[currentQuestionTest][1][j].answerText + "</label></div>"
+        htmlTestAnswers += "<div class='form-check mb-2'><input type=checkbox id=testAnswer" + j + " class=form-check-input><label id=testAnswer" + j + "label class=form-check-label for=testAnswer" + j + ">" + questionList[currentQuestionTest][1][j].answerText + "</label></div>"
     }
     $('#testQuestion').html(htmlTestQuestion);
     $('#testAnswers').html(htmlTestAnswers);
