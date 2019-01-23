@@ -9,7 +9,6 @@ function buildTest() {
     var htmlTestAnswers = "";
     var currentQuestionText = questionList[currentQuestionTest][0].questionText;
     htmlTestQuestion += "<h2>" + currentQuestionText + "</h2>"
-    //questionList[currentQuestionTest][1] = questionList[currentQuestionTest][1].sort(randomize);
     numberOfAnswers = questionList[currentQuestionTest][1].length;
     for (var j = 0; j < numberOfAnswers; j++) {
         htmlTestAnswers += "<div class='form-check mb-2'><input type=checkbox id=testAnswer" + j + " class=form-check-input><label id=testAnswer" + j + "label class=form-check-label for=testAnswer" + j + ">" + questionList[currentQuestionTest][1][j].answerText + "</label></div>"
@@ -44,8 +43,6 @@ function checkResults() {
     answered = true;
     var isCurrentQustionCorrect = true;
     for (var j = 0; j < numberOfAnswers; j++) {
-        console.log(questionList[currentQuestionTest][1][j]);
-        console.log(($('#testAnswer' + j).prop('checked')));
         if (($('#testAnswer' + j).prop('checked') == true) && (questionList[currentQuestionTest][1][j].correctAnswer == false)) {
             isCurrentQustionCorrect = false;
         }
@@ -76,7 +73,6 @@ function checkResults() {
             title: 'Špatně'
         });
     }
-    console.log("Správně: " + correctlyAnswered)
 
     $('#checkButton').hide();
     $('#correctlyAnswered').text(correctlyAnswered);
@@ -125,6 +121,24 @@ function nextTestQuestion() {
         $('#checkButton').show();
         buildTest();
     }
+}
+
+function confirmRepeatTest(){
+    Swal({
+        title: '<strong>Opravdu chcete spustit test znovu?</strong>',
+        type: 'question',
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText:
+            'Ano!',
+        cancelButtonText:
+            'Ne',
+    }).then((result) => {
+        if (result.value) {
+            repeatTest();
+        }
+    })
 }
 
 function repeatTest() {

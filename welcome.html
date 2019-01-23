@@ -1,8 +1,30 @@
-<form>
-    <input id="fileInputWelcome" type="file" accept=".txt" onchange="loadFileAsText(this)">
-    <p>Přesuňte nebo klikněte pro nahrání souboru s testem.</p>
-</form>
-<div class="container">
-    <h3>Soubory, které jste nedávno nahráli:</h3>
-    <div id="localStorageFiles"></div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-sm-8">
+            <h3>K čemu tester slouží?</h3>
+            <p>Tester slouží ke spouštění testů, které jsou uloženy v textových souborech s příponou txt.</p>
+            <p>Při opětovné návštěvě ze stejného počítače se můžete vrátit k předchozím testům. Vaše testy se
+                zpracovávají i ukládájí přímo v prohlížeči, nemusíte mít strach, že k nim dostane přístup někdo cizí.</p>
+            <h3>Jak používat tester?</h3>
+            <p>Soubory s testy musí mít přesný formát. Otázky i odpovědi musí vždy začínat na novém řádku. Správná
+                odpověď
+                má na začátku řádku +, špatná -. Otázky mohou začínat jakýmkoliv znakem kromě již zmíňených dvou.</p>
+        </div>
+        <div class="col-sm-4">
+            <h3>Ukázka formátování</h3>
+            <code>
+                Text první otázky<br>
+                + správná odpověd na první otázku<br>
+                - špatná odpověď na první otázku<br>
+                - špatná odpověď na první otázku<br>
+                + správná odpověd na první otázku<br>
+                Text druhé otázky<br>
+                - špatná odpověď na druhou otázku<br>
+                + správná odpověd na druhou otázku<br>
+                - špatná odpověď na druhou otázku<br>
+            </code>
+        </div>
+    </div>
+    <div id="localStorageFiles" class="mt-5">
+    </div>
 </div>

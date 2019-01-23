@@ -3,7 +3,7 @@ function buildView() {
     var numberOfQuestions = questionList.length;
     for (var i = 0; i < numberOfQuestions; i++) {
         questionList[i][1] = questionList[i][1].sort(randomize);
-        htmlResult += "<div class=questionBlock><p class=questionHeader>" + questionList[i][0].questionText; + "</p>"
+        htmlResult += '<div class="questionBlock border-bottom"><p class="questionHeader">' + questionList[i][0].questionText; + '</p>'
         var numberOfAnswers = questionList[i][1].length;
         for (var j = 0; j < numberOfAnswers; j++) {
             if (questionList[i][1][j].correctAnswer) {

@@ -33,11 +33,11 @@ $(document).ready(function () {
     }
 });
 
-$(document).ajaxSend(function(event, request, settings) {
+$(document).ajaxSend(function (event, request, settings) {
     $('#content').jmspinner();
 });
 
-$(document).ajaxComplete(function(event, request, settings) {
+$(document).ajaxComplete(function (event, request, settings) {
     $('#content').jmspinner(false);
 });
 
@@ -81,13 +81,9 @@ function loadFileAsText(fileElement) {
 
 function parseText() {
     var lines = new Array();
-    //questionsFile.replace(/(^[ \t]*\n)/gm, "");
     lines = questionsFile.split('\n');
     var arrayLength = lines.length;
     for (var i = 0; i < arrayLength; i++) {
-        /*         if ((lines[i]).substring(0, 1) != "+" && (lines[i]).substring(0, 1) != "-" && (lines[i]).trim() != "") {
-                    onlyQuestions.push((lines[i]));
-                }; */
         if (lines[i].trim().length != 0) {
 
             if ((!lines[i].startsWith("+")) && (!lines[i].startsWith("-"))) {
@@ -107,7 +103,6 @@ function parseText() {
 
 
 function areAnyQuestions() {
-    console.log("Length: "+questionList.length);
     if (questionList.length == 0) {
         return false;
     }
@@ -130,12 +125,11 @@ function showContent() {
         buildTest();
         buildLearn();
     }
-        getKeysFromLocalStorage();
-        showLocalStorageItems();
+    getKeysFromLocalStorage();
+    showLocalStorageItems();
 }
 
 function saveToLocalStorage() {
-    console.log(testFileName)
     var sklonovaniOtazky = "";
     if (numberOfQuestions == 1) { sklonovaniOtazky = "otázka" }
     else if (numberOfQuestions >= 2 && numberOfQuestions <= 4) { sklonovaniOtazky = "otázky" }
@@ -148,25 +142,28 @@ function getKeysFromLocalStorage() {
     for (var i = 0, len = localStorage.length; i < len; ++i) {
         localStorageKeys.push(localStorage.key(i));
     }
-    console.log(localStorageKeys);
     return localStorageKeys;
 }
 
 
-function showLocalStorageItems(){
+function showLocalStorageItems() {
     var html = "";
-    for (var i = 0; i < getKeysFromLocalStorage().length; i++){
-        html+='<div><a href=javascript:void(0); onclick="loadFileFromLocalStorage('+i+')";>'+getKeysFromLocalStorage()[i]+'</a><button type="button" class="btn btn-danger btn-sm" onclick="deleteLocalStorageItem('+i+')">–</button></div>'
+    if (getKeysFromLocalStorage().length != 0) {
+        html = '<h3>Vaše soubory</h3><table class="table table-hover table-striped"><thead><tr><th scope="col">#</th><th scope="col">Název</th><th scope="col">Akce</th></tr><tbody></thead>';
+        for (var i = 0; i < getKeysFromLocalStorage().length; i++) {
+            html += '<tr><th scope="row">' + (i + 1) + '</th><th><a href=javascript:void(0); onclick="loadFileFromLocalStorage(' + i + ')";>' + getKeysFromLocalStorage()[i] + '</a></th><th><a href=javascript:void(0); onclick="deleteLocalStorageItem(' + i + ')";>Odstranit</th></tr>'
+        }
+        html += '</tbody></table>'
     }
-
+    else {
+        html = '<h3 class="text-center">Připraveni?</h3><div class="text-center"><input type="button" class="btn btn-secondary btn-lg mt-5" value="Nahrát první test!" onclick=document.getElementById("fileInput").click();></div>'
+    }
     $('#localStorageFiles').html(html);
 }
 
 
-function loadFileFromLocalStorage(index){
-    console.log("Key: "+ getKeysFromLocalStorage()[index]);
+function loadFileFromLocalStorage(index) {
     var data = localStorage.getItem(getKeysFromLocalStorage()[index]);
-    console.log("Data: "+ data);
     questionList = JSON.parse(data);
     resetCounters();
     numberOfQuestions = questionList.length;
@@ -175,7 +172,7 @@ function loadFileFromLocalStorage(index){
     $('#fileNameText').text(getKeysFromLocalStorage()[index]);
 }
 
-function deleteLocalStorageItem(index){
+function deleteLocalStorageItem(index) {
     localStorage.removeItem(getKeysFromLocalStorage()[index]);
     showLocalStorageItems();
 }
