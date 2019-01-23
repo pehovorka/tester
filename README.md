@@ -2,6 +2,10 @@
 
 Jednoduchá aplikace sloužící k otevření a zpracování testů, které jsou uloženy v textových souborech s příponou txt. 
 
+[Odkaz na tester](https://dev.petrhovorka.com/tester/)
+
+[Ukázkový soubor s testem, který je možné nahrát do testeru pro otestování všech funkcí](autoskola_test.txt)
+
 ## Jak tester používat?
 Soubory s testy musí mít přesný formát. Otázky i odpovědi musí vždy začínat na novém řádku. Správná odpověď má na začátku řádku +, špatná -. Otázky mohou začínat jakýmkoliv znakem kromě již zmíňených dvou.
 
@@ -27,3 +31,5 @@ Při opětovné návštěvě ze stejného počítače se lze vrátit k předchoz
 *   jQuery
 *   LocalStorage
 *   Bootstrap
+
+
