@@ -18,7 +18,7 @@ Soubory s testy musí mít přesný formát. Otázky i odpovědi musí vždy za�
     - špatná odpověď na druhou otázku
 
 
-##Použité technologie
+## Použité technologie
 *   HTML5
 *   CSS3
 *   JS
