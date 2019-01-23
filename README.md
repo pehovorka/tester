@@ -5,6 +5,8 @@ Jednoduchá aplikace sloužící k otevření a zpracování testů, které jsou
 ## Jak tester používat?
 Soubory s testy musí mít přesný formát. Otázky i odpovědi musí vždy začínat na novém řádku. Správná odpověď má na začátku řádku +, špatná -. Otázky mohou začínat jakýmkoliv znakem kromě již zmíňených dvou.
 
+Při opětovné návštěvě ze stejného počítače se lze vrátit k předchozím testům. Testy se automaticky ukládají do Local Storage v prohlížeči a jejich seznam je zobrazen na hlavní stránce, odkud je možné je i odstranit.
+
 ## Ukázka formátování souboru s testem
 
     Text první otázky
